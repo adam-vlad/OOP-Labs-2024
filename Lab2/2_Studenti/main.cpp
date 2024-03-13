@@ -8,8 +8,8 @@ int main()
     Student student1, student2;
 
     char nume1[100], nume2[100];
-    strcpy_s(nume1, "Dani Smecheru");
-    strcpy_s(nume2, "Dani Ionut");
+    strcpy_s(nume1, "Ionescu Alexandru");
+    strcpy_s(nume2, "Andrei Tomis");
 
     student1.SetareNume(nume1);
     student1.SetareNotaMate(3.2f);
