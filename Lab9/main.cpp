@@ -50,13 +50,17 @@ public:
 
 	// Seteaza valoarea asociata unei chei
 	void Set(Key k, Value v) {
-		if (this->counter < this->capacity) {
-			this->v[this->counter].key = k;
-			this->v[this->counter].value = v;
-			this->v[this->counter].index = this->counter;
+		// Verificam daca cheia exista deja
+		for (int i = 0; i < this->counter; i++) {
+			if (this->v[i].key == k) {
+				this->v[i].value = v; // Actualizam valoarea
+				return; // Iesim din functie
+			}
 		}
-		else {
-			// Realizeaza extinderea vectorului de perechi in cazul in care este plin
+
+		// Daca cheia nu exista, adaugam o noua pereche
+		if (this->counter == this->capacity) {
+			// Daca am atins capacitatea maxima, dublam capacitatea
 			Pair* newV = new Pair[this->capacity * 2];
 			for (int i = 0; i < this->counter; i++) {
 				newV[i] = this->v[i];
@@ -64,12 +68,15 @@ public:
 			delete[] this->v;
 			this->v = newV;
 			this->capacity *= 2;
-			this->v[this->counter].key = k;
-			this->v[this->counter].value = v;
-			this->v[this->counter].index = this->counter;
 		}
-		this->counter++;
+
+		// Adaugam perechea noua la sfarsitul vectorului
+		this->v[this->counter].key = k;
+		this->v[this->counter].value = v;
+		this->v[this->counter].index = this->counter; // Indexul este setat ca indexul actual
+		this->counter++; // Incrementam contorul de perechi
 	}
+
 
 	// Verifica daca o cheie si o valoare exista in mapa
 	bool Get(const Key& k, const Value& v) {
@@ -147,6 +154,8 @@ int main()
 	m[10] = "C++";
 	m[20] = "test";
 	m[30] = "Poo";
+	m[50] = "val1";
+	m[60] = "val2";
 
 	// Se parcurge map-ul si se afiseaza cheile, valorile si indicele fiecarei perechi.
 	for (auto [key, value, index] : m) {
